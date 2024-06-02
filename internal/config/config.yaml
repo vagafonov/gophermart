@@ -1,0 +1,5 @@
+mode: "dev"
+run_address: ":8081"
+database_uri: "postgres://gophermart:gophermart@db:5432/gophermart?sslmode=disable"
+crypto_key: "0123456789abcdef"
+accrual_system_address: "http://accrual:8080"
