@@ -1,0 +1,55 @@
+services:
+#  app:
+#    build:
+#      dockerfile: ./docker/app/Dockerfile
+#      context: .
+#    volumes:
+#      - ./:/opt/app/api
+#    environment:
+#      RUN_ADDRESS: ":8080"
+#      DATABASE_URI: "host=db port=5432 user=gophermart password=gophermart dbname=gophermart sslmode=disable"
+#      ACCRUAL_SYSTEM_ADDRESS: "http://accrual:8080"
+#    networks:
+#      - gophermart-network
+#    ports:
+#      - "8082:8080"
+#    depends_on:
+#      - db
+#      - accrual
+#  accrual:
+#    build:
+#      context: .
+#      dockerfile: ./docker/accrual/Dockerfile
+#    environment:
+#      RUN_ADDRESS: ":8080"
+#      DATABASE_URI: "host=db port=5432 user=gophermart password=gophermart dbname=gophermart sslmode=disable"
+#    ports:
+#      - "8083:8080"
+#    networks:
+#     - gophermart-network
+  db:
+    image: postgres
+    restart: on-failure
+    ports:
+      - 9500:5432
+    environment:
+      - POSTGRES_DB=gophermart
+      - POSTGRES_PASSWORD=gophermart
+      - POSTGRES_USER=gophermart
+    volumes:
+      - postgresql-volume:/var/lib/postgresql:rw
+    networks:
+      - gophermart-network
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      timeout: 1s
+      retries: 5
+
+volumes:
+  postgresql-volume:
+
+networks:
+#  default:
+   gophermart-network:
+  #  external: true
+   # driver: bridge
